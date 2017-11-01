@@ -1,3 +1,7 @@
+/**
+ * Determines if the board is solvable by brute-forcing all possible switches.
+ * Returns true if the board is solvable, false otherwise.
+ */
 boolean isSolvable() {
   //Duplicate array for solving
   Square[][] copy = new Square[GRID_WIDTH][GRID_HEIGHT];
@@ -43,12 +47,18 @@ boolean isSolvable() {
   return false;
 }
 
-void softSwap(Square[][] array, int x1, int y1, int x2, int y2) {
+/**
+ * Switches two elements of a 2D array.
+ */
+static void softSwap(Square[][] array, int x1, int y1, int x2, int y2) {
   Square temp = array[x1][y1];
   array[x1][y1] = array[x2][y2];
   array[x2][y2] = temp;
 }
 
+/**
+ * Returns a Match object representing the first match found in an array.
+ */
 Match getMatch(Square[][] array) {
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
@@ -70,6 +80,9 @@ Match getMatch(Square[][] array) {
   return null;
 }
 
+/**
+ * Returns the number of matching squares to the left of the square[x][y].
+ */
 int matchesLeft(Square[][] array, int x, int y) {
   int matches = 0;
   int i = x-1;  //Check first square on left.
@@ -83,6 +96,9 @@ int matchesLeft(Square[][] array, int x, int y) {
   return matches;
 }
 
+/**
+ * Returns the number of matching squares to the right of the square[x][y].
+ */
 int matchesRight(Square[][] array, int x, int y) {
   int matches = 0;
   int i = x+1;  //Check first square on right.
@@ -96,6 +112,9 @@ int matchesRight(Square[][] array, int x, int y) {
   return matches;
 }
 
+/**
+ * Returns the number of matching squares above the square[x][y].
+ */
 int matchesUp(Square[][] array, int x, int y) {
   int matches = 0;
   int j = y-1;  //Check first square above.
@@ -109,6 +128,9 @@ int matchesUp(Square[][] array, int x, int y) {
   return matches;
 }
 
+/**
+ * Returns the number of matching squares below the square[x][y].
+ */
 int matchesDown(Square[][] array, int x, int y) {
   int matches = 0;
   int j = y+1;  //Check first square below.

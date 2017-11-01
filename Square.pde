@@ -1,14 +1,22 @@
 class Square {
-  int col, row;
-  int colTarget, rowTarget;
-  float x, y, w, h;
-  float xTarget, yTarget;
-  float xOffset, yOffset;
-  color fill = DEFAULT, stroke = DEFAULT;
+  int col, row;              //Board index of square.
+  int colTarget, rowTarget;  //Board destination after animating.
+  float x, y, w, h;          //Current location, width and height.
+  float xTarget, yTarget;    //Screen destination after animating.
+  float xOffset, yOffset;    //Board offset from top-left corner of screen.
+  color fill = DEFAULT, stroke = DEFAULT;  //Square colour and outline.
   boolean isAnimating = false;
   boolean isDestroyed = false;
-  boolean delete = false;
+  boolean delete = false;    //Has destroy animation completed?
 
+  /**
+   * Square constructor.
+   * 
+   * Parameters:
+   *   col, row = 2D array index of this square.
+   *   xOffset, yOffset = How far the board is offset from the top-left corner of the screen.
+   *   w, h = Width, Height of square.
+   */
   Square(int col, int row, float xOffset, float yOffset, float w, float h) {
     this.col = col;
     this.row = row;
@@ -25,24 +33,32 @@ class Square {
     rowTarget = row;
   }
 
+  /**
+   * Show the square on the screen.
+   */
   void display() {
     stroke(stroke);
     fill(fill);
     rect(x, y, w, h);
   }
 
+  /**
+   *  Move the square from its current position to its destination.
+   */
   void animate() {
     if (isDestroyed == true) {
+      //Collapse size of square to 0.
       w -= DEGENERATION_SPEED;
       h -= DEGENERATION_SPEED;
       x += DEGENERATION_SPEED/2;
       y += DEGENERATION_SPEED/2;
 
-      if (w <= 0 && h <= 0) {
+      //Delete when invisible.
+      if (w < 1 && h < 1) {
         delete = true;
       }
-    } else {
-
+    }
+    else {
       //Set row and column upon reaching target.
       if (x == xTarget && y == yTarget) {
         col = colTarget;
@@ -62,19 +78,23 @@ class Square {
       //Move towards xTarget.
       if (x > xTarget) {
         x -= ANIMATION_SPEED;
-      } else if (x < xTarget) {
+      }
+      else if (x < xTarget) {
         x += ANIMATION_SPEED;
       }
       //Move towards yTarget.
       if (y > yTarget) {
         y -= ANIMATION_SPEED;
-      } else if (y < yTarget) {
+      }
+      else if (y < yTarget) {
         y += ANIMATION_SPEED;
       }
     }
   }
 
-  //Calculate (x, y) coords based on array indices.
+  /**
+   * Calculate (x, y) coords based on array indices.
+   */
   void setTarget(int col, int row) {
     //Set target indices.
     colTarget = col;
@@ -87,6 +107,9 @@ class Square {
     isAnimating = true;
   }
 
+  /**
+   * Is the mouse over the square?
+   */
   boolean isMouseOver() {
     return ((mouseX > x) && (mouseX < x+w) && (mouseY > y) && (mouseY < y+h));
   }
